@@ -684,8 +684,11 @@ function cleanTrackTitle(title) {
     .replace(/\s*\(feat\.[^)]+\)/gi, '')
     .replace(/\s*\(featuring[^)]+\)/gi, '')
     .replace(/\s*\(with[^)]+\)/gi, '')
+    .replace(/\s*\(ft\.[^)]+\)/gi, '')
     .replace(/\s*\[feat\.[^\]]+\]/gi, '')
+    .replace(/\s*\[featuring[^)]+\)/gi, '')
     .replace(/\s*\[with[^\]]+\]/gi, '')
+    .replace(/\s*\[ft\.[^)]+\)/gi, '')
     .trim();
 }
 
