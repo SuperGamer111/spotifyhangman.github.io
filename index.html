@@ -125,9 +125,7 @@
     padding: 32px;
     width: 90%; max-width: 420px;
   }
-  .modal h2 { font-size: 1rem; margin-bottom: 6px; }
-  .modal p { color: var(--muted); font-size: 0.75rem; line-height: 1.6; margin-bottom: 20px; }
-  .modal p a { color: var(--green); text-decoration: none; }
+  .modal h2 { font-size: 1rem; margin-bottom: 20px; }
   .row { display: flex; gap: 8px; }
 
   /* ═══════════════════════════
@@ -248,11 +246,7 @@
   .key.hit { background: var(--green-dim); border-color: var(--green); color: var(--green); cursor: default; }
   .key.miss { border-color: var(--border); color: var(--border-bright); cursor: default; opacity: 0.5; }
 
-  /* artist hint */
-  .artist-hint { font-size: 0.72rem; color: var(--muted); }
-  .artist-hint span { color: var(--text); }
-
-  /* ── result overlay ── */
+  /* result overlay */
   .result-bg {
     position: fixed; inset: 0; z-index: 200;
     background: rgba(0,0,0,0.9);
@@ -308,17 +302,14 @@
 <body>
 <div id="app">
 
-  <!-- WELCOME -->
   <div id="screen-welcome" class="screen">
     <h1>Spotify<br><span>Hangman</span></h1>
     <button class="play-btn" onclick="openModal()">PLAY</button>
   </div>
 
-  <!-- MODAL: Spotify connect -->
   <div class="modal-bg hidden" id="modal" onclick="if(event.target===this)closeModal()">
     <div class="modal">
       <h2>Spotify Client ID</h2>
-      <p>Create a free app at <a href="https://developer.spotify.com/dashboard" target="_blank">developer.spotify.com</a> and add this page's URL as a Redirect URI.</p>
       <div class="row">
         <input type="text" id="cid" placeholder="Paste Client ID…" onkeydown="if(event.key==='Enter')connect()">
         <button class="btn" onclick="connect()">Go</button>
@@ -326,7 +317,6 @@
     </div>
   </div>
 
-  <!-- SETUP: player names -->
   <div id="screen-setup" class="screen hidden">
     <h2>Players</h2>
     <div class="name-row"><div class="dot"></div><input type="text" id="p1" value="Player 1" maxlength="18"></div>
@@ -334,7 +324,6 @@
     <button class="btn" onclick="startGame()">Start</button>
   </div>
 
-  <!-- PICKER -->
   <div id="screen-picker" class="screen hidden">
     <div class="picker-label">Picking a song</div>
     <div class="picker-name" id="picker-name"></div>
@@ -348,7 +337,6 @@
     </div>
   </div>
 
-  <!-- GAME -->
   <div id="screen-game" class="screen hidden">
     <div class="game-top">
       <div class="score-block">
@@ -365,7 +353,6 @@
     </div>
 
     <div class="game-body">
-      <!-- hangman -->
       <div class="hm-col">
         <svg id="hm-svg" viewBox="0 0 180 190" xmlns="http://www.w3.org/2000/svg">
           <line x1="10" y1="182" x2="170" y2="182" stroke="#222" stroke-width="3" stroke-linecap="round"/>
@@ -382,17 +369,14 @@
         <div class="hm-wrong" id="hm-wrong"></div>
       </div>
 
-      <!-- right -->
       <div class="play-col">
         <div class="context-line">Guessing: <span id="ctx-guesser"></span></div>
         <div class="word-wrap"><div class="word-rows" id="word-display"></div></div>
-        <div class="artist-hint">Artist: <span id="artist-hint"></span></div>
         <div class="kb" id="kb"></div>
       </div>
     </div>
   </div>
 
-  <!-- SCORES -->
   <div id="screen-scores" class="screen hidden">
     <h2>Final Score</h2>
     <div class="final-scores">
@@ -405,7 +389,6 @@
 
 </div>
 
-<!-- result overlay -->
 <div class="result-bg hidden" id="result-bg">
   <div class="result-box">
     <h2 id="r-title"></h2>
@@ -588,7 +571,6 @@ function beginRound(track) {
   document.getElementById('s-p2-val').className = 'score-val' + (gi===1?' active':'');
   document.getElementById('round-tag').textContent = `Round ${G.round}`;
   document.getElementById('ctx-guesser').textContent = G.players[gi];
-  document.getElementById('artist-hint').textContent = track.artists.map(a=>a.name).join(', ');
 
   // reset hangman
   PARTS.forEach(id => document.getElementById(id).style.display = 'none');
@@ -690,36 +672,6 @@ function nextRound() {
   startPicking();
 }
 
-function endGame() {
-  document.getElementById('result-bg').classList.add('hidden');
-  showScores();
-}
-
-function showScores() {
-  const [s0,s1] = G.scores;
-  const w = s0 > s1 ? 0 : s1 > s0 ? 1 : -1;
-  document.getElementById('fs1-name').textContent = G.players[0];
-  document.getElementById('fs2-name').textContent = G.players[1];
-  document.getElementById('fs1-val').textContent = s0;
-  document.getElementById('fs2-val').textContent = s1;
-  document.getElementById('fs1').className = 'fscore' + (w===0?' winner':'');
-  document.getElementById('fs2').className = 'fscore' + (w===1?' winner':'');
-  const hist = document.getElementById('hist');
-  hist.innerHTML = '';
-  G.history.forEach(h => {
-    const div = document.createElement('div');
-    div.className = 'hist-row';
-    div.innerHTML = `<div class="hist-rnd">Rd ${h.round}</div><div class="hist-song">${esc(h.name)}</div><div class="hist-out ${h.won?'w':'l'}">${h.won?'✓':'✗'}</div>`;
-    hist.appendChild(div);
-  });
-  show('screen-scores');
-}
-
-function newGame() {
-  G.scores = [0,0]; G.round = 0; G.pickerIdx = 0; G.history = [];
-  startPicking();
-}
-
 // ── keyboard shortcut ─────────────────────────
 document.addEventListener('keydown', e => {
   if (document.getElementById('screen-game').classList.contains('hidden')) return;
@@ -737,7 +689,7 @@ function cleanTrackTitle(title) {
     .trim();
 }
 
-function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function esc(s) { return s.replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>'); }
 
 // ── init ─────────────────────────────────────
 (async () => {
