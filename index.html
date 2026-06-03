@@ -175,9 +175,13 @@
   #screen-game { }
 
   .game-top {
-    display: flex; align-items: center; gap: 0;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto auto;
+    align-items: center;
+    gap: 12px;
     border-bottom: 1px solid var(--border);
-    padding-bottom: 16px; margin-bottom: 24px;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
   }
   .score-block { flex: 1; }
   .score-pname { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
@@ -186,14 +190,14 @@
   .score-sep { color: var(--border-bright); font-size: 0.85rem; padding: 0 16px; }
   .round-tag { font-size: 0.7rem; color: var(--muted); margin-left: auto; padding-right: 16px; text-transform: uppercase; letter-spacing: 1px; }
 
-  .game-body { display: grid; grid-template-columns: 220px 1fr; gap: 20px; }
+  .game-body { display: grid; grid-template-columns: 180px 1fr; gap: 16px; }
 
   /* hangman column */
   .hm-col {
-    display: flex; flex-direction: column; align-items: center; gap: 16px;
-    padding: 20px 0;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    padding: 8px 0;
   }
-  #hm-svg { width: 180px; height: 190px; }
+  #hm-svg { width: 140px; height: 150px; }
   .hm-wrong { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
   .hm-letter {
     border: 1px solid var(--border-bright);
@@ -210,7 +214,8 @@
   /* word */
   .word-wrap {
     border: 1px solid var(--border);
-    border-radius: 4px; padding: 20px 16px;
+    border-radius: 4px;
+    padding: 14px 12px;
   }
   .word-rows { display: flex; flex-wrap: wrap; gap: 4px 16px; }
   .word-group { display: flex; gap: 6px; }
@@ -566,7 +571,8 @@ function beginRound(track) {
   G.over = false;
   G.guessed = new Set();
   G.wrong = [];
-  G.word = track.name.toLowerCase();
+  const cleanTitle = cleanTrackTitle(track.name);
+  G.word = cleanTitle.toLowerCase();
 
   // auto-reveal non-alpha
   for (const ch of G.word) if (!/[a-z]/.test(ch)) G.guessed.add(ch);
@@ -673,7 +679,7 @@ function checkEnd() {
   title.textContent = won ? `${G.players[gi]} got it!` : `${G.players[G.pickerIdx]} wins the round`;
   title.className = won ? 'win' : '';
   document.getElementById('r-sub').textContent = won ? `+2 pts for ${G.players[gi]}` : `+1 pt for ${G.players[G.pickerIdx]}`;
-  document.getElementById('r-song').textContent = G.track.name;
+  document.getElementById('r-song').textContent = cleanTrackTitle(G.track.name);
   document.getElementById('r-artist').textContent = G.track.artists.map(a=>a.name).join(', ');
   document.getElementById('result-bg').classList.remove('hidden');
 }
@@ -720,6 +726,16 @@ document.addEventListener('keydown', e => {
   if (G.over) return;
   if (/^[a-z]$/i.test(e.key) && !e.ctrlKey && !e.metaKey) guess(e.key.toLowerCase());
 });
+
+function cleanTrackTitle(title) {
+  return title
+    .replace(/\s*\(feat\.[^)]+\)/gi, '')
+    .replace(/\s*\(featuring[^)]+\)/gi, '')
+    .replace(/\s*\(with[^)]+\)/gi, '')
+    .replace(/\s*\[feat\.[^\]]+\]/gi, '')
+    .replace(/\s*\[with[^\]]+\]/gi, '')
+    .trim();
+}
 
 function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
