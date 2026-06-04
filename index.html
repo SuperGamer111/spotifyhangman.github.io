@@ -563,7 +563,7 @@ function repick() { startPicking(); }
 function setSearchType(type) {
   G.searchType = type;
   document.querySelectorAll('.type-tab').forEach(t => t.classList.toggle('active', t.dataset.type === type));
-  const hints = { track:'Song', artist:'Artist name', album:'Album title' };
+  const hints = { track:'Song name', artist:'Artist name', album:'Album title' };
   document.getElementById('search-q').placeholder = `Search ${hints[type] || ''}…`;
   document.getElementById('results').innerHTML = '<div class="status-line">Start typing to search…</div>';
   document.getElementById('search-q').value = '';
@@ -591,8 +591,10 @@ async function doSearch(q) {
     if (data.error) { el.innerHTML = `<div class="status-line">${esc(data.error.message)}</div>`; return; }
 
     let items = [];
+    // strip featured artist parentheticals from song/album names
+    const stripFeat = name => name.replace(/\s*[\(\[](feat\.|ft\.|with |featuring |prod\.|prod by )[^\)\]]*[\)\]]/gi, '').trim();
     if (type === 'track')  items = (data.tracks?.items  || []).map(t => ({
-      name: t.name,
+      name: stripFeat(t.name),
       subtitle: t.artists.map(a=>a.name).join(', '),
       type: 'Song',
       imageUrl: t.album?.images?.[2]?.url || t.album?.images?.[0]?.url || '',
@@ -604,7 +606,7 @@ async function doSearch(q) {
       imageUrl: a.images?.[2]?.url || a.images?.[0]?.url || '',
     }));
     if (type === 'album')  items = (data.albums?.items  || []).map(a => ({
-      name: a.name,
+      name: stripFeat(a.name),
       subtitle: a.artists.map(x=>x.name).join(', '),
       type: 'Album',
       imageUrl: a.images?.[2]?.url || a.images?.[0]?.url || '',
@@ -663,15 +665,10 @@ function beginRound(pick) {
   document.getElementById('ctx-guesser').textContent = G.players[gi];
   document.getElementById('round-pts-display').textContent = G.roundPts;
 
-  // hint line
+  // hint line — type only, no artist/subtitle revealed
   const hintEl = document.getElementById('hint-row');
-  if (pick.type === 'Song') {
-    hintEl.innerHTML = `Artist: <span>${esc(pick.subtitle)}</span>`;
-  } else if (pick.type === 'Album') {
-    hintEl.innerHTML = `<span class="hint-type">Album</span> by <span>${esc(pick.subtitle)}</span>`;
-  } else {
-    hintEl.innerHTML = `<span class="hint-type">Artist</span>${pick.subtitle ? ' · ' + esc(pick.subtitle) : ''}`;
-  }
+  const typeLabel = { Song: 'Song', Album: 'Album', Artist: 'Artist' }[pick.type] || pick.type;
+  hintEl.innerHTML = `<span class="hint-type">${typeLabel}</span>`;
 
   // reset hangman
   PARTS.forEach(id => document.getElementById(id).style.display = 'none');
