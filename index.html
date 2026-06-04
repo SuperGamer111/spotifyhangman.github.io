@@ -10,12 +10,13 @@
 
   :root {
     --green: #1DB954;
-    --green-dim: rgba(29,185,84,0.15);
+    --green-dim: rgba(29,185,84,0.12);
     --green-glow: rgba(29,185,84,0.3);
     --bg: #000;
     --surface: #0d0d0d;
     --border: #1a1a1a;
-    --border-bright: #2a2a2a;
+    --border-bright: #333;
+    --dash: #4a4a4a;
     --text: #f0f0f0;
     --muted: #555;
   }
@@ -30,15 +31,13 @@
     justify-content: center;
   }
 
-  #app { width: 100%; max-width: 780px; padding: 40px 24px; }
+  #app { width: 100%; max-width: 820px; padding: 32px 24px; }
 
-  /* screens */
-  .screen { animation: up 0.25s ease; }
+  .screen { animation: up 0.2s ease; }
   .hidden { display: none !important; }
-  @keyframes up { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes up { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
 
-  /* ── inputs ── */
-  input {
+  input, select {
     background: var(--surface);
     border: 1px solid var(--border-bright);
     border-radius: 4px;
@@ -50,10 +49,10 @@
     transition: border-color 0.15s;
     width: 100%;
   }
-  input:focus { border-color: var(--green); }
+  input:focus, select:focus { border-color: var(--green); }
   input::placeholder { color: var(--muted); }
+  select option { background: #111; }
 
-  /* ── buttons ── */
   .btn {
     background: var(--green);
     border: none;
@@ -63,12 +62,13 @@
     font-family: 'Space Mono', monospace;
     font-size: 0.85rem;
     font-weight: 700;
-    padding: 10px 22px;
+    padding: 10px 20px;
     transition: opacity 0.15s, transform 0.15s;
     white-space: nowrap;
   }
   .btn:hover { opacity: 0.85; transform: translateY(-1px); }
   .btn:disabled { opacity: 0.3; cursor: default; transform: none; }
+
   .btn-ghost {
     background: none;
     border: 1px solid var(--border-bright);
@@ -77,166 +77,203 @@
     cursor: pointer;
     font-family: 'Space Mono', monospace;
     font-size: 0.8rem;
-    padding: 8px 16px;
+    padding: 8px 14px;
     transition: border-color 0.15s, color 0.15s;
+    white-space: nowrap;
   }
   .btn-ghost:hover { border-color: var(--green); color: var(--text); }
 
-  /* ═══════════════════════════
-     WELCOME
-  ═══════════════════════════ */
-  #screen-welcome {
-    text-align: center;
-    padding: 60px 0;
-  }
+  /* ═══════════════ WELCOME ═══════════════ */
+  #screen-welcome { text-align: center; padding: 80px 0; }
   #screen-welcome h1 {
-    font-size: 2.8rem;
-    font-weight: 700;
-    letter-spacing: -1px;
-    margin-bottom: 48px;
-    line-height: 1;
+    font-size: 3rem; font-weight: 700;
+    letter-spacing: -1px; line-height: 1;
+    margin-bottom: 52px;
   }
   #screen-welcome h1 span { color: var(--green); }
   .play-btn {
-    background: var(--green);
-    border: none;
-    border-radius: 4px;
-    color: #000;
-    cursor: pointer;
-    font-family: 'Space Mono', monospace;
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    padding: 14px 52px;
+    background: var(--green); border: none; border-radius: 4px;
+    color: #000; cursor: pointer;
+    font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700;
+    letter-spacing: 2px; padding: 14px 56px;
     transition: opacity 0.15s, box-shadow 0.15s;
   }
-  .play-btn:hover { opacity: 0.85; box-shadow: 0 0 30px var(--green-glow); }
+  .play-btn:hover { opacity: 0.85; box-shadow: 0 0 28px var(--green-glow); }
 
-  /* ── modal ── */
+  /* modal */
   .modal-bg {
     position: fixed; inset: 0; z-index: 100;
-    background: rgba(0,0,0,0.85);
+    background: rgba(0,0,0,0.88);
     display: flex; align-items: center; justify-content: center;
   }
   .modal {
     background: var(--surface);
     border: 1px solid var(--border-bright);
-    border-radius: 6px;
-    padding: 32px;
+    border-radius: 6px; padding: 32px;
     width: 90%; max-width: 420px;
   }
-  .modal h2 { font-size: 1rem; margin-bottom: 20px; }
+  .modal h2 { font-size: 1rem; margin-bottom: 6px; }
+  .modal p { color: var(--muted); font-size: 0.75rem; line-height: 1.6; margin-bottom: 20px; }
+  .modal p a { color: var(--green); text-decoration: none; }
   .row { display: flex; gap: 8px; }
 
-  /* ═══════════════════════════
-     SETUP
-  ═══════════════════════════ */
-  #screen-setup { max-width: 400px; margin: 0 auto; padding: 20px 0; }
-  #screen-setup h2 { font-size: 1rem; color: var(--muted); margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px; }
-  .name-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  /* ═══════════════ SETUP ═══════════════ */
+  #screen-setup { max-width: 380px; margin: 0 auto; padding: 20px 0; }
+  #screen-setup h2 { font-size: 0.7rem; color: var(--muted); margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px; }
+  .name-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
   .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
-  .dot.d2 { background: var(--text); opacity: 0.3; }
-  #screen-setup .btn { margin-top: 10px; }
+  .dot.d2 { background: var(--text); opacity: 0.25; }
+  #screen-setup .btn { margin-top: 12px; }
 
-  /* ═══════════════════════════
-     PICKER
-  ═══════════════════════════ */
-  #screen-picker { max-width: 600px; margin: 0 auto; }
-  .picker-label {
-    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;
-    color: var(--muted); margin-bottom: 6px;
-  }
-  .picker-name { font-size: 1.1rem; font-weight: 700; color: var(--green); margin-bottom: 24px; }
-  .search-row { display: flex; gap: 8px; margin-bottom: 12px; }
-  .search-row input { flex: 1; }
-  .results { display: flex; flex-direction: column; gap: 6px; min-height: 48px; margin-bottom: 20px; }
-  .track {
-    display: flex; align-items: center; gap: 12px;
-    border: 1px solid var(--border-bright);
-    border-radius: 4px; padding: 10px 14px;
-    cursor: pointer; transition: border-color 0.12s, background 0.12s;
-  }
-  .track:hover { border-color: var(--green); background: var(--green-dim); }
-  .track.sel { border-color: var(--green); background: var(--green-dim); }
-  .track img { width: 38px; height: 38px; border-radius: 3px; object-fit: cover; background: #111; flex-shrink: 0; }
-  .track-name { font-size: 0.85rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .track-artist { font-size: 0.72rem; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .track-info { flex: 1; min-width: 0; }
-  .track-check { color: var(--green); font-size: 1rem; visibility: hidden; flex-shrink: 0; }
-  .track.sel .track-check { visibility: visible; }
-  .status-line { font-size: 0.75rem; color: var(--muted); padding: 10px 0; }
-  .confirm-row { display: flex; justify-content: flex-end; padding-top: 8px; border-top: 1px solid var(--border); }
+  /* ═══════════════ PICKER ═══════════════ */
+  #screen-picker { max-width: 620px; margin: 0 auto; }
 
-  /* ═══════════════════════════
-     GAME
-  ═══════════════════════════ */
-  #screen-game { }
-
-  .game-top {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr auto auto;
-    align-items: center;
-    gap: 12px;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 12px;
+  .picker-header {
+    display: flex; align-items: baseline; justify-content: space-between;
     margin-bottom: 20px;
   }
-  .score-block { flex: 1; }
-  .score-pname { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
-  .score-val { font-size: 1.6rem; font-weight: 700; line-height: 1.1; }
-  .score-val.active { color: var(--green); }
-  .score-sep { color: var(--border-bright); font-size: 0.85rem; padding: 0 16px; }
-  .round-tag { font-size: 0.7rem; color: var(--muted); margin-left: auto; padding-right: 16px; text-transform: uppercase; letter-spacing: 1px; }
+  .picker-who { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; }
+  .picker-name { font-size: 1.1rem; font-weight: 700; color: var(--green); margin-top: 2px; }
+  .picker-repick { }
 
-  .game-body { display: grid; grid-template-columns: 180px 1fr; gap: 16px; }
-
-  /* hangman column */
-  .hm-col {
-    display: flex; flex-direction: column; align-items: center; gap: 10px;
-    padding: 8px 0;
+  /* search type tabs */
+  .type-tabs { display: flex; gap: 0; margin-bottom: 12px; border: 1px solid var(--border-bright); border-radius: 4px; overflow: hidden; }
+  .type-tab {
+    flex: 1; background: none; border: none; cursor: pointer;
+    font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700;
+    padding: 8px 0; color: var(--muted);
+    transition: background 0.15s, color 0.15s;
+    letter-spacing: 1px; text-transform: uppercase;
   }
-  #hm-svg { width: 140px; height: 150px; }
+  .type-tab + .type-tab { border-left: 1px solid var(--border-bright); }
+  .type-tab.active { background: var(--green); color: #000; }
+
+  .search-row { display: flex; gap: 8px; margin-bottom: 12px; }
+  .search-row input { flex: 1; }
+
+  .results { display: flex; flex-direction: column; gap: 6px; min-height: 48px; margin-bottom: 16px; }
+  .result-item {
+    display: flex; align-items: center; gap: 12px;
+    border: 1px solid var(--border-bright); border-radius: 4px;
+    padding: 10px 14px; cursor: pointer;
+    transition: border-color 0.12s, background 0.12s;
+  }
+  .result-item:hover { border-color: var(--green); background: var(--green-dim); }
+  .result-item.sel { border-color: var(--green); background: var(--green-dim); }
+  .result-item img { width: 40px; height: 40px; border-radius: 3px; object-fit: cover; background: #111; flex-shrink: 0; }
+  .ri-name { font-size: 0.85rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ri-sub { font-size: 0.72rem; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ri-info { flex: 1; min-width: 0; }
+  .ri-tag {
+    font-size: 0.62rem; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--muted); border: 1px solid var(--border-bright);
+    border-radius: 3px; padding: 2px 6px; flex-shrink: 0;
+  }
+  .ri-check { color: var(--green); font-size: 1rem; visibility: hidden; flex-shrink: 0; }
+  .result-item.sel .ri-check { visibility: visible; }
+
+  .status-line { font-size: 0.75rem; color: var(--muted); padding: 10px 0; }
+  .confirm-row { display: flex; justify-content: flex-end; padding-top: 12px; border-top: 1px solid var(--border); }
+
+  /* ═══════════════ GAME ═══════════════ */
+  /* top bar: score left, players right */
+  .game-bar {
+    display: flex; align-items: stretch;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 16px; margin-bottom: 22px;
+    gap: 0;
+  }
+
+  /* score left */
+  .score-left {
+    display: flex; flex-direction: column; justify-content: center;
+    margin-right: auto;
+  }
+  .score-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 2px; }
+  .score-big {
+    font-size: 2.6rem; font-weight: 700; line-height: 1;
+    color: var(--green);
+  }
+  .score-pts-label { font-size: 0.65rem; color: var(--muted); margin-top: 1px; }
+
+  /* round center */
+  .round-center {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 0 24px;
+  }
+  .round-num { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); }
+
+  /* players right */
+  .players-right {
+    display: flex; flex-direction: column; align-items: flex-end; justify-content: center;
+    gap: 6px;
+  }
+  .player-pill {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.78rem;
+  }
+  .player-pill .pname { font-weight: 700; }
+  .player-pill .pscore {
+    font-size: 0.7rem; color: var(--muted);
+    background: var(--surface); border: 1px solid var(--border-bright);
+    border-radius: 3px; padding: 1px 7px;
+  }
+  .player-pill.guessing .pname { color: var(--green); }
+  .player-pill.guessing .pscore { border-color: var(--green); color: var(--green); }
+
+  /* end btn */
+  .end-btn-wrap { display: flex; align-items: center; padding-left: 20px; border-left: 1px solid var(--border); margin-left: 16px; }
+
+  /* game body */
+  .game-body { display: grid; grid-template-columns: 200px 1fr; gap: 24px; }
+
+  /* hangman */
+  .hm-col { display: flex; flex-direction: column; align-items: center; gap: 12px; padding-top: 8px; }
+  #hm-svg { width: 170px; height: 178px; }
   .hm-wrong { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
-  .hm-letter {
-    border: 1px solid var(--border-bright);
-    border-radius: 3px; padding: 2px 7px;
-    font-size: 0.75rem; color: var(--muted);
+  .hm-letter { border: 1px solid var(--border-bright); border-radius: 3px; padding: 2px 7px; font-size: 0.72rem; color: var(--muted); }
+  .mistakes-left { font-size: 0.65rem; color: var(--muted); text-align: center; }
+  .mistakes-left span { color: var(--text); font-weight: 700; }
+
+  /* play col */
+  .play-col { display: flex; flex-direction: column; gap: 14px; }
+
+  .context-row { display: flex; align-items: center; justify-content: space-between; }
+  .context-line { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .context-line strong { color: var(--text); font-weight: 700; }
+  .score-ticker {
+    font-size: 0.72rem; color: var(--muted);
+    background: var(--surface); border: 1px solid var(--border-bright);
+    border-radius: 3px; padding: 3px 10px;
   }
+  .score-ticker .st-val { color: var(--green); font-weight: 700; }
 
-  /* right column */
-  .play-col { display: flex; flex-direction: column; gap: 16px; }
-
-  .context-line { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-  .context-line span { color: var(--text); }
-
-  /* word */
-  .word-wrap {
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 14px 12px;
-  }
-  .word-rows { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+  /* word display */
+  .word-wrap { border: 1px solid var(--border); border-radius: 4px; padding: 18px 16px; }
+  .word-rows { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: flex-end; }
   .word-group { display: flex; gap: 6px; }
-  .lbox { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  .lbox { display: flex; flex-direction: column; align-items: center; gap: 4px; }
   .lchar {
-    font-size: 1.35rem; font-weight: 700;
-    width: 20px; text-align: center; height: 28px;
+    font-size: 1.3rem; font-weight: 700;
+    width: 20px; text-align: center; height: 26px;
     display: flex; align-items: center; justify-content: center;
-    color: transparent;
-    transition: color 0.15s;
+    color: transparent; transition: color 0.12s;
   }
-  .lchar.show { color: var(--text); animation: pop 0.2s cubic-bezier(.34,1.56,.64,1); }
+  .lchar.show { color: var(--text); animation: pop 0.18s cubic-bezier(.34,1.56,.64,1); }
   .lchar.auto { color: var(--green); }
-  @keyframes pop { from { transform: scale(0.4); } to { transform: scale(1); } }
-  .lline { width: 20px; height: 1px; background: var(--border-bright); }
+  @keyframes pop { from { transform: scale(0.3); } to { transform: scale(1); } }
+  .lline { width: 20px; height: 2px; background: var(--dash); border-radius: 1px; }
   .lline.on { background: var(--green); }
 
+  .hint-row { font-size: 0.72rem; color: var(--muted); }
+  .hint-row span { color: var(--text); }
+  .hint-type { color: var(--green); font-weight: 700; }
+
   /* keyboard */
-  .kb { display: flex; flex-direction: column; gap: 5px; }
+  .kb { display: flex; flex-direction: column; gap: 4px; }
   .kb-row { display: flex; gap: 4px; justify-content: center; }
   .key {
-    background: var(--surface);
-    border: 1px solid var(--border-bright);
+    background: var(--surface); border: 1px solid var(--border-bright);
     border-radius: 3px; padding: 7px 0;
     font-family: 'Space Mono', monospace; font-size: 0.72rem; font-weight: 700;
     cursor: pointer; color: var(--text); min-width: 30px; text-align: center;
@@ -244,72 +281,73 @@
   }
   .key:hover:not([disabled]) { border-color: var(--green); color: var(--green); }
   .key.hit { background: var(--green-dim); border-color: var(--green); color: var(--green); cursor: default; }
-  .key.miss { border-color: var(--border); color: var(--border-bright); cursor: default; opacity: 0.5; }
+  .key.miss { border-color: var(--border); color: var(--border-bright); cursor: default; opacity: 0.4; }
 
   /* result overlay */
   .result-bg {
     position: fixed; inset: 0; z-index: 200;
-    background: rgba(0,0,0,0.9);
+    background: rgba(0,0,0,0.92);
     display: flex; align-items: center; justify-content: center;
   }
   .result-box {
-    background: var(--surface);
-    border: 1px solid var(--border-bright);
+    background: var(--surface); border: 1px solid var(--border-bright);
     border-radius: 6px; padding: 36px;
     max-width: 400px; width: 90%; text-align: center;
   }
-  .result-box h2 { font-size: 1.4rem; margin-bottom: 8px; }
+  .result-box h2 { font-size: 1.3rem; margin-bottom: 6px; }
   .result-box h2.win { color: var(--green); }
-  .result-box .sub { font-size: 0.78rem; color: var(--muted); margin-bottom: 20px; }
+  .result-sub { font-size: 0.78rem; color: var(--muted); margin-bottom: 20px; }
   .result-song { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
   .result-artist { font-size: 0.75rem; color: var(--muted); margin-bottom: 24px; }
+  .result-score-earned {
+    font-size: 0.75rem; color: var(--green);
+    border: 1px solid var(--green);
+    border-radius: 3px; padding: 4px 12px;
+    display: inline-block; margin-bottom: 20px;
+  }
   .result-actions { display: flex; gap: 10px; justify-content: center; }
 
-  /* ═══════════════════════════
-     SCOREBOARD
-  ═══════════════════════════ */
+  /* scoreboard */
   #screen-scores { max-width: 420px; margin: 0 auto; text-align: center; padding: 20px 0; }
   #screen-scores h2 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 32px; }
-  .final-scores { display: flex; gap: 16px; margin-bottom: 32px; }
-  .fscore {
-    flex: 1; border: 1px solid var(--border-bright);
-    border-radius: 4px; padding: 24px 16px;
-  }
+  .final-scores { display: flex; gap: 16px; margin-bottom: 28px; }
+  .fscore { flex: 1; border: 1px solid var(--border-bright); border-radius: 4px; padding: 24px 16px; }
   .fscore.winner { border-color: var(--green); }
-  .fscore .fn { font-size: 0.75rem; color: var(--muted); margin-bottom: 8px; }
+  .fscore .fn { font-size: 0.72rem; color: var(--muted); margin-bottom: 8px; }
   .fscore .fv { font-size: 3rem; font-weight: 700; line-height: 1; }
   .fscore.winner .fv { color: var(--green); }
-  .history { text-align: left; margin-bottom: 28px; }
-  .history h3 { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 10px; }
-  .hist-row {
-    display: flex; gap: 10px; align-items: center;
-    border-bottom: 1px solid var(--border); padding: 8px 0;
-    font-size: 0.78rem;
-  }
-  .hist-rnd { color: var(--muted); width: 40px; flex-shrink: 0; }
+  .history h3 { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 10px; text-align: left; }
+  .hist-row { display: flex; gap: 10px; align-items: center; border-bottom: 1px solid var(--border); padding: 8px 0; font-size: 0.78rem; }
+  .hist-rnd { color: var(--muted); width: 36px; flex-shrink: 0; }
   .hist-song { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .hist-out { flex-shrink: 0; }
+  .hist-type { font-size: 0.65rem; color: var(--muted); flex-shrink: 0; }
+  .hist-out { flex-shrink: 0; font-weight: 700; }
   .hist-out.w { color: var(--green); }
   .hist-out.l { color: var(--muted); }
+  #screen-scores .btn { margin-top: 24px; }
 
   @media (max-width: 580px) {
     .game-body { grid-template-columns: 1fr; }
     .hm-col { flex-direction: row; flex-wrap: wrap; justify-content: center; }
-    #hm-svg { width: 140px; height: 148px; }
+    #hm-svg { width: 130px; height: 136px; }
+    .score-big { font-size: 2rem; }
   }
 </style>
 </head>
 <body>
 <div id="app">
 
+  <!-- WELCOME -->
   <div id="screen-welcome" class="screen">
     <h1>Spotify<br><span>Hangman</span></h1>
     <button class="play-btn" onclick="openModal()">PLAY</button>
   </div>
 
+  <!-- MODAL -->
   <div class="modal-bg hidden" id="modal" onclick="if(event.target===this)closeModal()">
     <div class="modal">
       <h2>Spotify Client ID</h2>
+      <p>Create a free app at <a href="https://developer.spotify.com/dashboard" target="_blank">developer.spotify.com</a> and add this page's URL as a Redirect URI.</p>
       <div class="row">
         <input type="text" id="cid" placeholder="Paste Client ID…" onkeydown="if(event.key==='Enter')connect()">
         <button class="btn" onclick="connect()">Go</button>
@@ -317,6 +355,7 @@
     </div>
   </div>
 
+  <!-- SETUP -->
   <div id="screen-setup" class="screen hidden">
     <h2>Players</h2>
     <div class="name-row"><div class="dot"></div><input type="text" id="p1" value="Player 1" maxlength="18"></div>
@@ -324,59 +363,88 @@
     <button class="btn" onclick="startGame()">Start</button>
   </div>
 
+  <!-- PICKER -->
   <div id="screen-picker" class="screen hidden">
-    <div class="picker-label">Picking a song</div>
-    <div class="picker-name" id="picker-name"></div>
+    <div class="picker-header">
+      <div>
+        <div class="picker-who">Picking</div>
+        <div class="picker-name" id="picker-name"></div>
+      </div>
+      <button class="btn-ghost picker-repick" id="repick-btn" onclick="repick()" style="display:none">↺ Repick</button>
+    </div>
+
+    <div class="type-tabs">
+      <button class="type-tab active" data-type="track" onclick="setSearchType('track')">Song</button>
+      <button class="type-tab" data-type="artist" onclick="setSearchType('artist')">Artist</button>
+      <button class="type-tab" data-type="album" onclick="setSearchType('album')">Album</button>
+    </div>
+
     <div class="search-row">
-      <input type="text" id="search-q" placeholder="Search Spotify…" oninput="debouncedSearch(this.value)" onkeydown="if(event.key==='Enter')doSearch(this.value)">
+      <input type="text" id="search-q" placeholder="Search…" oninput="debouncedSearch(this.value)" onkeydown="if(event.key==='Enter')doSearch(this.value)">
       <button class="btn" onclick="doSearch(document.getElementById('search-q').value)">Search</button>
     </div>
+
     <div class="results" id="results"><div class="status-line">Start typing to search…</div></div>
     <div class="confirm-row">
-      <button class="btn" id="confirm-btn" onclick="confirmSong()" disabled>Use this song →</button>
+      <button class="btn" id="confirm-btn" onclick="confirmPick()" disabled>Use this →</button>
     </div>
   </div>
 
+  <!-- GAME -->
   <div id="screen-game" class="screen hidden">
-    <div class="game-top">
-      <div class="score-block">
-        <div class="score-pname" id="s-p1-name"></div>
-        <div class="score-val" id="s-p1-val">0</div>
+    <div class="game-bar">
+      <!-- score left -->
+      <div class="score-left">
+        <div class="score-label" id="score-label-name"></div>
+        <div class="score-big" id="score-big">0</div>
+        <div class="score-pts-label">pts this round</div>
       </div>
-      <div class="score-sep">—</div>
-      <div class="score-block" style="text-align:right">
-        <div class="score-pname" id="s-p2-name"></div>
-        <div class="score-val" id="s-p2-val">0</div>
+
+      <!-- round center -->
+      <div class="round-center">
+        <div class="round-num" id="round-tag"></div>
       </div>
-      <div class="round-tag" id="round-tag"></div>
-      <button class="btn-ghost" onclick="endGame()">End</button>
+
+      <!-- players right -->
+      <div class="players-right" id="players-right"></div>
+
+      <!-- end -->
+      <div class="end-btn-wrap">
+        <button class="btn-ghost" onclick="confirmEndGame()">End Game</button>
+      </div>
     </div>
 
     <div class="game-body">
       <div class="hm-col">
-        <svg id="hm-svg" viewBox="0 0 180 190" xmlns="http://www.w3.org/2000/svg">
-          <line x1="10" y1="182" x2="170" y2="182" stroke="#222" stroke-width="3" stroke-linecap="round"/>
-          <line x1="50" y1="182" x2="50" y2="10" stroke="#222" stroke-width="3" stroke-linecap="round"/>
-          <line x1="50" y1="10" x2="115" y2="10" stroke="#222" stroke-width="3" stroke-linecap="round"/>
-          <line x1="115" y1="10" x2="115" y2="32" stroke="#222" stroke-width="3" stroke-linecap="round"/>
-          <circle id="p-head" cx="115" cy="47" r="14" fill="none" stroke="var(--green)" stroke-width="2.5" style="display:none"/>
-          <line id="p-body" x1="115" y1="61" x2="115" y2="108" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" style="display:none"/>
-          <line id="p-la" x1="115" y1="75" x2="93" y2="97" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" style="display:none"/>
-          <line id="p-ra" x1="115" y1="75" x2="137" y2="97" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" style="display:none"/>
-          <line id="p-ll" x1="115" y1="108" x2="93" y2="140" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" style="display:none"/>
-          <line id="p-rl" x1="115" y1="108" x2="137" y2="140" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" style="display:none"/>
+        <svg id="hm-svg" viewBox="0 0 170 178" xmlns="http://www.w3.org/2000/svg">
+          <line x1="8" y1="170" x2="162" y2="170" stroke="#222" stroke-width="3" stroke-linecap="round"/>
+          <line x1="46" y1="170" x2="46" y2="8"   stroke="#222" stroke-width="3" stroke-linecap="round"/>
+          <line x1="46" y1="8"   x2="110" y2="8"  stroke="#222" stroke-width="3" stroke-linecap="round"/>
+          <line x1="110" y1="8"  x2="110" y2="28" stroke="#222" stroke-width="3" stroke-linecap="round"/>
+          <circle id="p-head" cx="110" cy="43" r="14" fill="none" stroke="var(--green)" stroke-width="2.5" style="display:none"/>
+          <line id="p-body" x1="110" y1="57" x2="110" y2="102" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" style="display:none"/>
+          <line id="p-la"   x1="110" y1="70" x2="89"  y2="92"  stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" style="display:none"/>
+          <line id="p-ra"   x1="110" y1="70" x2="131" y2="92"  stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" style="display:none"/>
+          <line id="p-ll"   x1="110" y1="102" x2="89" y2="132" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" style="display:none"/>
+          <line id="p-rl"   x1="110" y1="102" x2="131" y2="132" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" style="display:none"/>
         </svg>
+        <div class="mistakes-left" id="mistakes-left"></div>
         <div class="hm-wrong" id="hm-wrong"></div>
       </div>
 
       <div class="play-col">
-        <div class="context-line">Guessing: <span id="ctx-guesser"></span></div>
+        <div class="context-row">
+          <div class="context-line">Guessing: <strong id="ctx-guesser"></strong></div>
+          <div class="score-ticker">Round pts: <span class="st-val" id="round-pts-display">6</span></div>
+        </div>
         <div class="word-wrap"><div class="word-rows" id="word-display"></div></div>
+        <div class="hint-row" id="hint-row"></div>
         <div class="kb" id="kb"></div>
       </div>
     </div>
   </div>
 
+  <!-- SCOREBOARD -->
   <div id="screen-scores" class="screen hidden">
     <h2>Final Score</h2>
     <div class="final-scores">
@@ -389,12 +457,14 @@
 
 </div>
 
+<!-- result overlay -->
 <div class="result-bg hidden" id="result-bg">
   <div class="result-box">
     <h2 id="r-title"></h2>
-    <div class="sub" id="r-sub"></div>
+    <div class="result-sub" id="r-sub"></div>
     <div class="result-song" id="r-song"></div>
     <div class="result-artist" id="r-artist"></div>
+    <div class="result-score-earned" id="r-earned"></div>
     <div class="result-actions">
       <button class="btn-ghost" onclick="endGame()">End Game</button>
       <button class="btn" onclick="nextRound()">Next Round →</button>
@@ -409,13 +479,15 @@ const G = {
   scores: [0,0],
   round: 0,
   pickerIdx: 0,
-  track: null,
+  pick: null,       // { name, subtitle, type, imageUrl }
   word: '',
   guessed: new Set(),
   wrong: [],
   maxWrong: 6,
+  roundPts: 6,      // current round points available to guesser
   over: false,
   history: [],
+  searchType: 'track',
 };
 
 const PARTS = ['p-head','p-body','p-la','p-ra','p-ll','p-rl'];
@@ -431,154 +503,206 @@ function openModal() {
   document.getElementById('modal').classList.remove('hidden');
   setTimeout(() => document.getElementById('cid').focus(), 40);
 }
-function closeModal() {
-  document.getElementById('modal').classList.add('hidden');
-}
+function closeModal() { document.getElementById('modal').classList.add('hidden'); }
 
-// ── spotify oauth (pkce) ──────────────────────
+// ── oauth pkce ───────────────────────────────
 function randStr(n) {
   const c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   return Array.from(crypto.getRandomValues(new Uint8Array(n))).map(b => c[b % c.length]).join('');
 }
-async function challenge(v) {
+async function makeChallenge(v) {
   const d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(v));
   return btoa(String.fromCharCode(...new Uint8Array(d))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=/g,'');
 }
 async function connect() {
   const id = document.getElementById('cid').value.trim();
   if (!id) return;
-  const v = randStr(64);
-  const ch = await challenge(v);
-  sessionStorage.setItem('v', v);
-  sessionStorage.setItem('id', id);
-  const base = window.location.href.split('?')[0].split('#')[0];
+  const v = randStr(64), ch = await makeChallenge(v);
+  sessionStorage.setItem('v', v); sessionStorage.setItem('id', id);
+  const base = location.href.split('?')[0].split('#')[0];
   location.href = `https://accounts.spotify.com/authorize?response_type=code&client_id=${id}&scope=user-read-private&redirect_uri=${encodeURIComponent(base)}&code_challenge_method=S256&code_challenge=${ch}`;
 }
 async function handleCallback() {
   const p = new URLSearchParams(location.search);
   const code = p.get('code');
   if (!code) return false;
-  const v = sessionStorage.getItem('v');
-  const id = sessionStorage.getItem('id');
+  const v = sessionStorage.getItem('v'), id = sessionStorage.getItem('id');
   if (!v || !id) return false;
   const base = location.href.split('?')[0].split('#')[0];
   const res = await fetch('https://accounts.spotify.com/api/token', {
-    method: 'POST',
-    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'},
     body: new URLSearchParams({grant_type:'authorization_code',code,redirect_uri:base,client_id:id,code_verifier:v})
   });
   const data = await res.json();
-  if (data.access_token) {
-    G.token = data.access_token;
-    history.replaceState({}, '', location.pathname);
-    return true;
-  }
+  if (data.access_token) { G.token = data.access_token; history.replaceState({},'',' '); return true; }
   return false;
 }
 
-// ── setup ─────────────────────────────────────
+// ── setup ────────────────────────────────────
 function startGame() {
   G.players[0] = document.getElementById('p1').value.trim() || 'Player 1';
   G.players[1] = document.getElementById('p2').value.trim() || 'Player 2';
-  G.scores = [0,0];
-  G.round = 0;
-  G.pickerIdx = 0;
-  G.history = [];
+  G.scores = [0,0]; G.round = 0; G.pickerIdx = 0; G.history = [];
   startPicking();
 }
 
 // ── picker ────────────────────────────────────
 function startPicking() {
-  G.track = null;
+  G.pick = null;
   document.getElementById('confirm-btn').disabled = true;
   document.getElementById('search-q').value = '';
   document.getElementById('results').innerHTML = '<div class="status-line">Start typing to search…</div>';
   document.getElementById('picker-name').textContent = G.players[G.pickerIdx];
+  document.getElementById('repick-btn').style.display = 'none';
+  setSearchType('track');
   show('screen-picker');
+}
+
+function repick() { startPicking(); }
+
+function setSearchType(type) {
+  G.searchType = type;
+  document.querySelectorAll('.type-tab').forEach(t => t.classList.toggle('active', t.dataset.type === type));
+  const hints = { track:'Song', artist:'Artist name', album:'Album title' };
+  document.getElementById('search-q').placeholder = `Search ${hints[type] || ''}…`;
+  document.getElementById('results').innerHTML = '<div class="status-line">Start typing to search…</div>';
+  document.getElementById('search-q').value = '';
+  G.pick = null;
+  document.getElementById('confirm-btn').disabled = true;
 }
 
 let searchTimer = null;
 function debouncedSearch(q) {
   clearTimeout(searchTimer);
   if (q.length < 2) return;
-  searchTimer = setTimeout(() => doSearch(q), 380);
+  searchTimer = setTimeout(() => doSearch(q), 360);
 }
+
 async function doSearch(q) {
   if (!q || q.length < 2) return;
   const el = document.getElementById('results');
   el.innerHTML = '<div class="status-line">Searching…</div>';
   try {
-    const res = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(q)}&type=track&limit=7`, {
+    const type = G.searchType;
+    const res = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(q)}&type=${type}&limit=7`, {
       headers: {Authorization: `Bearer ${G.token}`}
     });
     const data = await res.json();
-    if (data.error) { el.innerHTML = `<div class="status-line">${data.error.message}</div>`; return; }
-    const tracks = data.tracks?.items || [];
-    if (!tracks.length) { el.innerHTML = '<div class="status-line">No results.</div>'; return; }
+    if (data.error) { el.innerHTML = `<div class="status-line">${esc(data.error.message)}</div>`; return; }
+
+    let items = [];
+    if (type === 'track')  items = (data.tracks?.items  || []).map(t => ({
+      name: t.name,
+      subtitle: t.artists.map(a=>a.name).join(', '),
+      type: 'Song',
+      imageUrl: t.album?.images?.[2]?.url || t.album?.images?.[0]?.url || '',
+    }));
+    if (type === 'artist') items = (data.artists?.items || []).map(a => ({
+      name: a.name,
+      subtitle: a.genres?.slice(0,2).join(', ') || '',
+      type: 'Artist',
+      imageUrl: a.images?.[2]?.url || a.images?.[0]?.url || '',
+    }));
+    if (type === 'album')  items = (data.albums?.items  || []).map(a => ({
+      name: a.name,
+      subtitle: a.artists.map(x=>x.name).join(', '),
+      type: 'Album',
+      imageUrl: a.images?.[2]?.url || a.images?.[0]?.url || '',
+    }));
+
+    if (!items.length) { el.innerHTML = '<div class="status-line">No results.</div>'; return; }
     el.innerHTML = '';
-    tracks.forEach(t => {
+    items.forEach(item => {
       const div = document.createElement('div');
-      div.className = 'track';
-      const img = t.album?.images?.[2]?.url || t.album?.images?.[0]?.url || '';
+      div.className = 'result-item';
       div.innerHTML = `
-        <img src="${img}" alt="" onerror="this.style.display='none'">
-        <div class="track-info">
-          <div class="track-name">${esc(t.name)}</div>
-          <div class="track-artist">${esc(t.artists.map(a=>a.name).join(', '))}</div>
+        <img src="${esc(item.imageUrl)}" alt="" onerror="this.style.display='none'">
+        <div class="ri-info">
+          <div class="ri-name">${esc(item.name)}</div>
+          <div class="ri-sub">${esc(item.subtitle)}</div>
         </div>
-        <div class="track-check">✓</div>`;
-      div.onclick = () => selectTrack(t);
+        <div class="ri-tag">${item.type}</div>
+        <div class="ri-check">✓</div>`;
+      div.onclick = () => selectPick(item, div);
       el.appendChild(div);
     });
   } catch(e) {
     document.getElementById('results').innerHTML = '<div class="status-line">Search failed.</div>';
   }
 }
-function selectTrack(t) {
-  G.track = t;
-  document.querySelectorAll('.track').forEach(el => el.classList.remove('sel'));
-  // find and select
-  document.querySelectorAll('.track').forEach(el => {
-    if (el.querySelector('.track-name').textContent === t.name) el.classList.add('sel');
-  });
+
+function selectPick(item, div) {
+  G.pick = item;
+  document.querySelectorAll('.result-item').forEach(el => el.classList.remove('sel'));
+  div.classList.add('sel');
   document.getElementById('confirm-btn').disabled = false;
 }
-function confirmSong() {
-  if (!G.track) return;
-  beginRound(G.track);
+
+function confirmPick() {
+  if (!G.pick) return;
+  beginRound(G.pick);
 }
 
 // ── game round ────────────────────────────────
-function beginRound(track) {
+function beginRound(pick) {
   G.round++;
   G.over = false;
   G.guessed = new Set();
   G.wrong = [];
-  const cleanTitle = cleanTrackTitle(track.name);
-  G.word = cleanTitle.toLowerCase();
+  G.word = pick.name.toLowerCase();
+  G.roundPts = 6;
 
   // auto-reveal non-alpha
   for (const ch of G.word) if (!/[a-z]/.test(ch)) G.guessed.add(ch);
 
-  const gi = 1 - G.pickerIdx;
+  const gi = 1 - G.pickerIdx; // guesser index
 
-  // scores bar
-  document.getElementById('s-p1-name').textContent = G.players[0];
-  document.getElementById('s-p2-name').textContent = G.players[1];
-  document.getElementById('s-p1-val').textContent = G.scores[0];
-  document.getElementById('s-p2-val').textContent = G.scores[1];
-  document.getElementById('s-p1-val').className = 'score-val' + (gi===0?' active':'');
-  document.getElementById('s-p2-val').className = 'score-val' + (gi===1?' active':'');
+  // top bar
+  refreshGameBar(gi);
   document.getElementById('round-tag').textContent = `Round ${G.round}`;
   document.getElementById('ctx-guesser').textContent = G.players[gi];
+  document.getElementById('round-pts-display').textContent = G.roundPts;
+
+  // hint line
+  const hintEl = document.getElementById('hint-row');
+  if (pick.type === 'Song') {
+    hintEl.innerHTML = `Artist: <span>${esc(pick.subtitle)}</span>`;
+  } else if (pick.type === 'Album') {
+    hintEl.innerHTML = `<span class="hint-type">Album</span> by <span>${esc(pick.subtitle)}</span>`;
+  } else {
+    hintEl.innerHTML = `<span class="hint-type">Artist</span>${pick.subtitle ? ' · ' + esc(pick.subtitle) : ''}`;
+  }
 
   // reset hangman
   PARTS.forEach(id => document.getElementById(id).style.display = 'none');
   document.getElementById('hm-wrong').innerHTML = '';
+  updateMistakesLeft();
 
   renderWord();
   buildKeyboard();
   show('screen-game');
+}
+
+function refreshGameBar(guesserIdx) {
+  if (guesserIdx === undefined) guesserIdx = 1 - G.pickerIdx;
+  // Score left = guesser's total score
+  document.getElementById('score-label-name').textContent = G.players[guesserIdx];
+  document.getElementById('score-big').textContent = G.scores[guesserIdx];
+
+  // Players right
+  const pr = document.getElementById('players-right');
+  pr.innerHTML = '';
+  G.players.forEach((name, i) => {
+    const div = document.createElement('div');
+    div.className = 'player-pill' + (i === guesserIdx ? ' guessing' : '');
+    div.innerHTML = `<span class="pname">${esc(name)}</span><span class="pscore">${G.scores[i]}</span>`;
+    pr.appendChild(div);
+  });
+}
+
+function updateMistakesLeft() {
+  const left = G.maxWrong - G.wrong.length;
+  document.getElementById('mistakes-left').innerHTML = `<span>${left}</span> mistake${left===1?'':'s'} left`;
 }
 
 function renderWord() {
@@ -586,24 +710,19 @@ function renderWord() {
   const wrap = document.getElementById('word-display');
   wrap.innerHTML = '';
   words.forEach((word, wi) => {
-    if (wi > 0) {
-      const sp = document.createElement('div');
-      sp.style.width = '14px';
-      wrap.appendChild(sp);
-    }
+    if (wi > 0) { const sp = document.createElement('div'); sp.style.width='12px'; wrap.appendChild(sp); }
     const grp = document.createElement('div');
     grp.className = 'word-group';
     for (const ch of word) {
       const revealed = G.guessed.has(ch);
-      const box = document.createElement('div');
-      box.className = 'lbox';
+      const isAuto = revealed && !/[a-z]/.test(ch);
+      const box = document.createElement('div'); box.className = 'lbox';
       const lc = document.createElement('div');
-      lc.className = 'lchar' + (revealed ? (!/[a-z]/.test(ch) ? ' auto' : ' show') : '');
+      lc.className = 'lchar' + (revealed ? (isAuto ? ' auto' : ' show') : '');
       lc.textContent = revealed ? ch.toUpperCase() : '';
       const ll = document.createElement('div');
       ll.className = 'lline' + (revealed ? ' on' : '');
-      box.appendChild(lc);
-      box.appendChild(ll);
+      box.appendChild(lc); box.appendChild(ll);
       grp.appendChild(box);
     }
     wrap.appendChild(grp);
@@ -614,12 +733,10 @@ function buildKeyboard() {
   const kb = document.getElementById('kb');
   kb.innerHTML = '';
   ['QWERTYUIOP','ASDFGHJKL','ZXCVBNM'].forEach(row => {
-    const div = document.createElement('div');
-    div.className = 'kb-row';
+    const div = document.createElement('div'); div.className = 'kb-row';
     for (const letter of row) {
       const k = document.createElement('button');
-      k.className = 'key';
-      k.textContent = letter;
+      k.className = 'key'; k.textContent = letter;
       k.dataset.l = letter.toLowerCase();
       k.onclick = () => guess(letter.toLowerCase());
       div.appendChild(k);
@@ -636,12 +753,14 @@ function guess(letter) {
   if (key) { key.classList.add(hit ? 'hit' : 'miss'); key.disabled = true; }
   if (!hit) {
     G.wrong.push(letter);
+    G.roundPts = Math.max(0, G.roundPts - 1);
+    document.getElementById('round-pts-display').textContent = G.roundPts;
     const p = document.getElementById(PARTS[G.wrong.length - 1]);
     if (p) p.style.display = '';
-    const span = document.createElement('div');
-    span.className = 'hm-letter';
+    const span = document.createElement('div'); span.className = 'hm-letter';
     span.textContent = letter.toUpperCase();
     document.getElementById('hm-wrong').appendChild(span);
+    updateMistakesLeft();
   }
   renderWord();
   checkEnd();
@@ -654,21 +773,63 @@ function checkEnd() {
   G.over = true;
   const gi = 1 - G.pickerIdx;
   const won = solved && !dead;
-  if (won) G.scores[gi] += 2; else G.scores[G.pickerIdx] += 1;
-  G.history.push({ round: G.round, name: G.track.name, artist: G.track.artists.map(a=>a.name).join(', '), won });
+  const ptsEarned = won ? G.roundPts : 0; // picker gets 0 either way
+  if (won) G.scores[gi] += ptsEarned;
+  G.history.push({ round:G.round, name:G.pick.name, type:G.pick.type, won, pts:ptsEarned });
+
+  // refresh scores display
+  refreshGameBar(gi);
 
   const title = document.getElementById('r-title');
-  title.textContent = won ? `${G.players[gi]} got it!` : `${G.players[G.pickerIdx]} wins the round`;
+  title.textContent = won ? `${G.players[gi]} got it!` : 'Hanged!';
   title.className = won ? 'win' : '';
-  document.getElementById('r-sub').textContent = won ? `+2 pts for ${G.players[gi]}` : `+1 pt for ${G.players[G.pickerIdx]}`;
-  document.getElementById('r-song').textContent = cleanTrackTitle(G.track.name);
-  document.getElementById('r-artist').textContent = G.track.artists.map(a=>a.name).join(', ');
+  document.getElementById('r-sub').textContent = won
+    ? `${G.players[gi]} guessed the ${G.pick.type.toLowerCase()}`
+    : `${G.players[gi]} couldn't guess it`;
+  document.getElementById('r-song').textContent = G.pick.name;
+  document.getElementById('r-artist').textContent = G.pick.subtitle || '';
+  document.getElementById('r-earned').textContent = won ? `+${ptsEarned} pts` : 'No points awarded';
   document.getElementById('result-bg').classList.remove('hidden');
 }
 
 function nextRound() {
   document.getElementById('result-bg').classList.add('hidden');
   G.pickerIdx = 1 - G.pickerIdx;
+  // show repick button for new round
+  startPicking();
+  document.getElementById('repick-btn').style.display = '';
+}
+
+function confirmEndGame() {
+  if (confirm('End the game and see final scores?')) endGame();
+}
+
+function endGame() {
+  document.getElementById('result-bg').classList.add('hidden');
+  showScores();
+}
+
+function showScores() {
+  const [s0,s1] = G.scores;
+  const w = s0 > s1 ? 0 : s1 > s0 ? 1 : -1;
+  document.getElementById('fs1-name').textContent = G.players[0];
+  document.getElementById('fs2-name').textContent = G.players[1];
+  document.getElementById('fs1-val').textContent = s0;
+  document.getElementById('fs2-val').textContent = s1;
+  document.getElementById('fs1').className = 'fscore' + (w===0?' winner':'');
+  document.getElementById('fs2').className = 'fscore' + (w===1?' winner':'');
+  const hist = document.getElementById('hist');
+  hist.innerHTML = '';
+  G.history.forEach(h => {
+    const div = document.createElement('div'); div.className = 'hist-row';
+    div.innerHTML = `<div class="hist-rnd">Rd ${h.round}</div><div class="hist-song">${esc(h.name)}</div><div class="hist-type">${h.type}</div><div class="hist-out ${h.won?'w':'l'}">${h.won?`+${h.pts}`:'—'}</div>`;
+    hist.appendChild(div);
+  });
+  show('screen-scores');
+}
+
+function newGame() {
+  G.scores=[0,0]; G.round=0; G.pickerIdx=0; G.history=[];
   startPicking();
 }
 
@@ -679,20 +840,7 @@ document.addEventListener('keydown', e => {
   if (/^[a-z]$/i.test(e.key) && !e.ctrlKey && !e.metaKey) guess(e.key.toLowerCase());
 });
 
-function cleanTrackTitle(title) {
-  return title
-    .replace(/\s*\(feat\.[^)]+\)/gi, '')
-    .replace(/\s*\(featuring[^)]+\)/gi, '')
-    .replace(/\s*\(with[^)]+\)/gi, '')
-    .replace(/\s*\(ft\.[^)]+\)/gi, '')
-    .replace(/\s*\[feat\.[^\]]+\]/gi, '')
-    .replace(/\s*\[featuring[^)]+\)/gi, '')
-    .replace(/\s*\[with[^\]]+\]/gi, '')
-    .replace(/\s*\[ft\.[^)]+\)/gi, '')
-    .trim();
-}
-
-function esc(s) { return s.replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>'); }
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 // ── init ─────────────────────────────────────
 (async () => {
@@ -700,7 +848,7 @@ function esc(s) { return s.replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>')
     const ok = await handleCallback();
     if (ok) { show('screen-setup'); return; }
   }
-  if (location.search.includes('error=')) history.replaceState({}, '', location.pathname);
+  if (location.search.includes('error=')) history.replaceState({},'',' ');
   show('screen-welcome');
 })();
 </script>
